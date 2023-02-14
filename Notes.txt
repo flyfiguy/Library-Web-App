@@ -1,0 +1,214 @@
+Visual Studio Code 1.75.0 (Node.js 16.15.2)
+Node.js 16.17.0
+NPM 8.15.1
+tsc 4.7.4
+
+Create a new project 
+>npx create-react-app my-app-name (creates a brand new React application without you having to do any build configurations)
+>npx create-react-app library-app --template typescript (Create ne project using the React + TypeScript command. "--template typescript" means it configures TypeScript throughout our entire project automatically. 
+>cd my-app-name (Jump into your new React application directory)
+>npm start () (1.Builds the app - compile/transpile 2.Starts tje server 3.Watches the source files 4.Rebuilds the apps when source is updated - hot reload)
+
+By default, React uses port 3000. Can change doing "set PORT=5100 && npm start". This makes sure the server listens on port 5100 which is http://localhost:5100
+
+To run the application
+	-To start: npm start
+	-To stop: CTRL + c then 'y'
+
+public/index.html <- src/index.js <- App.js
+
+JSX (JavaScript XML): Allows us to write HTML in React components
+
+Bootstrap files: www.getbootstrap.com
+	- https://getbootstrap.com/docs/5.0/getting-started/introduction/
+	-Add the links to the index.html file
+		-Bootstrap CSS link with version number
+		-Bootstrap JS Dependencies link with version number
+		-Go to "Starter template" at the site above and...
+			-Grab the following and place in index.html in <head> tag as the last link above closing tag.
+				<!-- Bootstrap CSS -->
+				<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+			-Grab the following at place in index.html in the <body> right above the closing tag.
+				<!-- Option 1: Bootstrap Bundle with Popper -->
+				<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+	
+	-Apply CSS in the component HTML tags for our template in src/app.js. Below you will see two boostrap style called "container" and "card"
+		<div className="container">
+			<div className="card"></div>
+		</div>
+	
+	-Apply CSS in Component HTML Table in src/app.js. Below you see two bootstrap CSS styles "table" and "table-hover"
+		<table className="table table-hover">
+			...
+		</table>
+		
+Hooks
+	-import React, {useState} from 'react';
+		-Dynamically Rerender Page: Use the state trigger a refresh of the specific component after changing a variable (add a new element to an array) 
+	-useEffect: React Hook that tells out React app that it needs to do something after rendering such as fetch books for our carousel or reviews.
+		
+
+await fetch(): JavaScript method that is an easy way to fetch resources (data) asynchronously accross a network...in our case calling the Spring Boot API endpoint.
+
+JavaScript functions
+array.map https://www.w3schools.com/jsref/jsref_map.asp
+array.filter https://www.w3schools.com/jsref/jsref_filter.asp
+
+TypeScript
+	-Gets compiles so you can find your errors early at compile time as apposed to runtime (like JavaScript).
+	
+	-Strongly typed
+	
+	-TypeScript files have a .ts extention if not used to render DOM. For example, use this extention for a class object.
+	-TypeScript files have a .tsx extention which is a TypeScript version of a JSX file which is what React uses to render DOMs.
+	
+	-Transpile: Translating/Compiling - Convert TypeScript to JavaScript.
+	
+	-Use "tsc" command to transpile a .ts program file to .js.
+		-Example: C:\> tsc mydemo.ts
+			-This produces mydemo.js
+	
+	-Run the .js file
+		-Example: C:\> node mydemo.js
+	
+	-Define TypeScript variables
+		-Use the let keyword to declare variables. The var keyword had a number of gotchas and pitfalls (Scoping, capturing, shadowing, ...)
+		- let <variableName>: <type> = <initial value>;
+		- let found: boolean = true;
+		- let grade: number = 88.6; ( or 73 for example)
+		- let firstName: string = "Mike"; (or 'Mike' with single quotes)
+		
+		Type: any
+		-Can assign different balues of any type. Be careful. You lose type-safety
+		-A good use for it is generics or an array that can hold different types.
+		-let myData: any = 50
+			-You can then assign different types to it...
+			-myData = false;
+			-myData = 'Eric';
+			-myData = 19;
+		
+	Even if there are errors, tsc will still generate a .js file. To prevent that, you need to include a compiler flag when you compile or set it in a properties file.
+		-tsc -noEmitOnError myDemo.ts
+	
+	Template string to concatenate string variables using the backtick
+		-console.log(`Hi ${firstName} ${lastName}`);
+		
+	Arrays
+		-Dynamic/growable using .push()
+		-let sportsOne: string[] = ["Golf", "Cricket", "Tennis", "Swimming"];
+		
+		sportsOne.push("Baseball");
+		sportsOne.push("Futball");
+		
+	
+	for loop examples
+		for (let i=0; i < 5; i++) {
+			console.log(i);
+		}
+		
+		let reviews: number[] = [5,5,4.5,1,3];
+		let total: number = 0;
+		for(let i=0; i<reviews.length; i++){
+			console.log(reviews[i]);
+			total += reviews[i];
+		}
+		let average: number = total / reviews.length;
+		
+	Simplified for loop	
+		let sportsOne: string[] = ["Golf", "Cricket", "Tennis", "Swimming"];
+		for(let tempSport of sportsOne) {
+			console.log(tempSport);
+		}
+	
+	Classes
+		-classes are public by default
+		-Mark properties as private
+		
+		Access Modifiers
+		-public: Property is accessible to all classes (default modifier)
+		-protected: Property is only accessible in current class and subclasses
+		-private: Property is only accessible within current class
+		
+		-Use new keyword
+			-let myCustomer = new Customer();
+		
+	
+		-The special get/set accessors for a class are only supported in ES5 and higher so you have to set a compiler flag in order to compile the code.
+			-C:\> tsc --target ES5 --noEmitOnError Customer.ts
+			
+		
+		Export your class so others can import it
+		-File: Customers.ts
+			- export class Customers {
+				...
+			}
+			
+		Import a class so you can use it in a file
+		-File: Driver.ts
+			- import { Customer } from './Customer';
+		
+		
+	Compiler options file
+		-tsconfig.json
+			-defines compiler options and project settings.
+			-Place this file in the root of your project directory.
+			{
+				"compilerOptions": {
+					"noEmitOnError": true,
+					"target": "es5"
+				}
+			}
+			
+			-To define a tmeplate of all options for this file
+				-C:\> tsc --init (another suggestion is "npx tsc --init")
+				-Once your project has tsconfig.json file, then you can simply compile with C:\> tsc 
+					-No need to give names of TypeScript files. By default, will compile all *.ts files.
+					-See www.luv2code.com/tsconfig-docs
+					
+					
+See TypeScript Training code examples
+	-C:\Users\flyfi\Stuff\typescript-training
+	
+Converting Todo project from using JavaScript to using TypeScript
+	-Says to install TypeScript (which I already did at begining of course) using the following...
+		-npm install --save typescript @types/node @types/react @types/react-dom @types/jest
+		
+Formatting the entire page...
+	Ctrl+A, Alt+Shift+F
+		
+		
+REST Endpoints using Spring Data REST
+	-How endpoints are named from the class name in the repository
+		-Simple pluralized form.
+			-First character of Entity type is lowercase
+			-Then just adds an "s" to the entity name
+			-Example: public interface BookRepository extends JpaRepository<Book, Long> {
+			}
+			-For the above example, the entity is "Book" so the endpoint for it would be "/books"
+		
+		-For the entity Book, Spring Data REST will expose these endpoints for free!
+			HTTP Method	Endpoint	CRUD Action
+			POST			/books		Create a new book (should return an id/PK)
+			GET				/books		Read a list of books (should return id/PK with each book)
+			GET				/books/{id}	Read a single book
+			PUT				/books/{id}	Update an existing book
+			DELETE			/books/{id} Delete and existing book
+
+							{/*Return the first three books in the "state" book array which was retrieved from the WS call*/}
+							{/*Then call a function for each book*/}
+
+
+React Router: how you handle multiple pages in an SPA (single page application)
+	-react-router-dom@5 (there is a version @6, but it is not stable enough to use currently)
+		-npm install react-router-dom@5
+		
+ICONS
+	-Bookstrap Icons
+	-https://icons.getbootstrap.com/
+		-v1.10.0
+
+	-<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-star-fill" viewBox="0 0 16 16">
+  <path d="M3.612 15.443c-.386.198-.824-.149-.746-.592l.83-4.73L.173 6.765c-.329-.314-.158-.888.283-.95l4.898-.696L7.538.792c.197-.39.73-.39.927 0l2.184 4.327 4.898.696c.441.062.612.636.282.95l-3.522 3.356.83 4.73c.078.443-.36.79-.746.592L8 13.187l-4.389 2.256z"/>
+</svg>
+
+HikeToLove!
