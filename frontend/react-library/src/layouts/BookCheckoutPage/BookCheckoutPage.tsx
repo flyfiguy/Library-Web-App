@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import BookModel from "../../models/BookModel";
+import ReviewModel from "../../models/ReviewModel";
 import { SpinnerLoading } from "../Utils/SpinnerLoading";
 import { StarsReview } from "../Utils/StarsReview";
 import { CheckoutAndReviewBox } from "./CheckoutAndReviewBox";
+import { LatestReviews } from "./LatestReviews";
 
 export const BookCheckoutPage = () => {
     //Add state
@@ -13,6 +15,12 @@ export const BookCheckoutPage = () => {
     const [isLoading, setIsLoading] = useState(true);
     //In case there is a problem with the API calls
     const [httpError, setHttpError] = useState(null);
+    
+    //Review State
+    const[reviews, setReviews] = useState<ReviewModel[]>([])
+    const[totalStars, setTotalStars] = useState(0);
+    const[isLoadingReview, setIsLoadingReview] = useState(true);
+
 
     //Will return the URL: window.location.pathname
     //Split the URL into an array using the slash as a token. We need the last element which is the book id query param
@@ -69,8 +77,51 @@ export const BookCheckoutPage = () => {
         //If we add variables to this array, and those variables change, it kicks off the entire useEffect.
     }, []);
 
+    useEffect(()=>{
+        const fetchBookReviews = async () => {
+            const reviewUrl: string = `http://localhost:8080/api/reviews/search/findByBookId?bookId=${bookId}`;
+
+            const responseReviews = await fetch(reviewUrl);
+
+            if(!responseReviews.ok){
+                throw new Error('Something went wrong!');
+            }
+
+            const responseJsonReviews = await responseReviews.json();
+            const responseData = responseJsonReviews._embedded.reviews;
+            const loadedReviews: ReviewModel[] = [];
+            let weightStarReviews: number = 0;
+            for(const key in responseData) {
+                loadedReviews.push({
+                    id: responseData[key].id,
+                    userEmail: responseData[key].userEmail,
+                    date: responseData[key].date,
+                    rating: responseData[key].rating,
+                    book_id: responseData[key].bookId,
+                    reviewDescription: responseData[key].reviewDescription
+                });
+                weightStarReviews = weightStarReviews + responseData[key].rating;
+            }
+
+            if(loadedReviews) {
+                const round = (Math.round((weightStarReviews / loadedReviews.length) * 2) / 2).toFixed(1);
+                setTotalStars(Number(round));
+            }
+
+            setReviews(loadedReviews);
+            setIsLoadingReview(false);
+        };
+
+        fetchBookReviews().catch((error: any) => {
+            setIsLoadingReview(false);
+            setHttpError(error.message);
+        });
+
+    }, []);
+
     //If isLoading is true, display "Loading.." in dom
-    if (isLoading) {
+    //The || in the if statement makes sure that both useEffect API calls are complete before we go ahead and render the remainder of the application
+    if (isLoading || isLoadingReview) {
         return (
             <SpinnerLoading />
         )
@@ -102,12 +153,13 @@ export const BookCheckoutPage = () => {
                             <h2>{book?.title}</h2>
                             <h5 className="text-primary">{book?.author}</h5>
                             <p className="lead">{book?.description}</p>
-                            <StarsReview rating={4.5} size={32} />
+                            <StarsReview rating={totalStars} size={32} />
                         </div>
                     </div>
                     <CheckoutAndReviewBox book={book} mobile={false} />
                 </div>
                 <hr />
+                <LatestReviews reviews={reviews} bookId={book?.id} mobile={false}/>
             </div>
             <div className="container d-lg-none mt-5">
                 <div className="d-flex justify-content-center align-items-center">
@@ -122,11 +174,12 @@ export const BookCheckoutPage = () => {
                         <h2>{book?.title}</h2>
                         <h5 className="text-primary">{book?.author}</h5>
                         <p className="lead">{book?.description}</p>
-                        <StarsReview rating={4.5} size={32} />
+                        <StarsReview rating={totalStars} size={32} />
                     </div>
                 </div>
                 <CheckoutAndReviewBox book={book} mobile={true} />
                 <hr />
+                <LatestReviews reviews={reviews} bookId={book?.id} mobile={true}/>
             </div>
         </div>
     );
