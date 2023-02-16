@@ -1,6 +1,6 @@
 Visual Studio Code 1.75.0
-Node.js 16.17.0
-NPM 8.15.1
+node.js 16.17.0
+npm 8.15.1
 tsc 4.7.4
 React 16.17.0
 Spring boot 3.0.2
@@ -225,3 +225,4 @@ Create free developer account at okta.com
 	-Sign up for free account
 	-Check your email to verify your account
 	-Set up OpenID Connect account in okta
+	-Intall Okta widget: npm install @okta/okta-signin-widget@6.3.3

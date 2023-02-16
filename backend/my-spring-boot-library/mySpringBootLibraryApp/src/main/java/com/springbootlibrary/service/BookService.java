@@ -19,7 +19,7 @@ public class BookService {
     private CheckoutRepository checkoutRepository;
 
 
-    //Constructor dependency injection to set up the repositories
+    //Constructor dependency injection to set up the repositories throughout this file
     //Set up our book repository and checkout repository throughout this file
     public BookService(BookRepository bookRepository, CheckoutRepository checkoutRepository, CheckoutRepository checkoutRepository1) {
         //Set it up, so we can use both repositories when we use this service
@@ -34,9 +34,11 @@ public class BookService {
     public Book checkoutBook(String userEmail, Long bookId) throws Exception {
 
         //Get Book from database based on bookId
+        //When you call a database, it returns an Optional of the entity type (Optional <Book>).
         Optional<Book> book = bookRepository.findById(bookId);
 
-        //Will return null if user does not have the book checked out.
+        // We do not want a user to checkout a book more than once.
+        // Will return null if user does not have the book checked out. We will check to see if not null.
         Checkout validateCheckout = checkoutRepository.findByUserEmailAndBookId(userEmail, bookId);
 
         //Make sure book has copies available

@@ -7,6 +7,28 @@ Frontend
 -node.js 16.17.0
 -npm 8.15.1
 -tsc 4.7.4
+-Okta 6.4.3
+
+Security
+- Sign-in Method
+	Okta
+		-OIDC (OpenID Connect)
+			-Use with Okta Sign-in Widget (6.3.3)
+- Application Type
+	Single-Page Application
+- General
+	App integration name: Library App
+	Grant Type: Authorization Code
+	Sign-in redirect URI: http://localhost:3000/login/callback
+	Sign-out redirect URI: http://localhost:3000
+	Trusted Origins - Base URI: http://localhost:3000
+	Assignments - Controlled Access: Allow everyone in your organization to access
+	Assignments - Enable immediate access - Enable immediate access with Federation Broker Mode
+- Dev URL: 
+- Cleint ID:
+- Test user: testuser@email.com
+- Test password: 
+
 
 Backend
 -Spring boot 3.0.2
@@ -23,3 +45,4 @@ Running the application
 3) Start frontend React web application
 
 NOTE 2/15/2023: Add additional details including documentation of RESTful services...
+
