@@ -1,6 +1,8 @@
 package com.springbootlibrary.config;
 
 import com.springbootlibrary.entity.Book;
+import com.springbootlibrary.entity.History;
+import com.springbootlibrary.entity.Message;
 import com.springbootlibrary.entity.Review;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -29,10 +31,14 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         //so we know exactly what book we are using. Hibernate automatically hides the id's (primary key).
         config.exposeIdsFor(Book.class);
         config.exposeIdsFor(Review.class);
+        config.exposeIdsFor(History.class);
+        config.exposeIdsFor(Message.class);
 
         //HTTP methods we do not want exposed. Disable them.
         disableHttpMethods(Book.class, config, theUnsupportedActions);
         disableHttpMethods(Review.class, config, theUnsupportedActions);
+        disableHttpMethods(History.class, config, theUnsupportedActions);
+        disableHttpMethods(Message.class, config, theUnsupportedActions);
 
         /*Configure CORS Mapping
          * https://www.baeldung.com/spring-cors

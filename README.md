@@ -44,5 +44,33 @@ Running the application
 2) Start backend Java/Spring Boot Application
 3) Start frontend React web application
 
-NOTE 2/15/2023: Add additional details including documentation of RESTful services...
+RESTful APIs
 
+PUT - http://localhost:8080/api/books/secure/checkout?bookId=1
+	- Checkout a book. Reduces the copies available count.
+	- Any user can only check out the same book once.
+
+Success
+{
+    "id": 2,
+    "title": "Become a Guru in JavaScript",
+    "author": "Luv, Lena",
+    "description": "Pellentesque varius aliquam lacus quis rhoncus. Nam a dui lectus. Vestibulum libero elit, ultricies sit amet sagittis eu, molestie at velit. Donec tincidunt tempus magna, quis facilisis libero elementum non. Sed velit lacus, laoreet sed augue fermentum, sagittis convallis metus. Sed nec est at massa venenatis aliquet. Donec pretium interdum fringilla. Sed ornare tellus enim, a tincidunt libero dictum vitae. Proin bibendum posuere dui. Donec sagittis neque massa, sed semper nulla vehicula at.",
+    "copies": 15,
+    "copiesAvailable": 14,
+    "category": "FE",
+    "img": "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAZYAAAJqCAYAAAAIQG...
+}
+
+Error
+{
+    "timestamp": "2023-02-16T17:09:27.288+00:00",
+    "status": 500,
+    "error": "Internal Server Error",
+    "path": "/api/books/secure/checkout"
+}
+
+GET - http://localhost:8080/api/books/secure/ischeckedout/byuser?bookId=1
+	- Test to see if a particular book is currently checked out by a particular user already.
+	- NOTE: need to add the user email as a query param still
+	- Returns "true" if user already has a particular book checked out otherwise returns "false"

@@ -2,6 +2,7 @@ package com.springbootlibrary.controller;
 
 import com.springbootlibrary.entity.Message;
 import com.springbootlibrary.service.MessagesService;
+import com.springbootlibrary.utils.ExtractJWT;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,8 +18,9 @@ public class MessagesController {
     }
 
     @PostMapping("/secure/add/message")
-    public void postMessage(@RequestBody Message messageRequest) {
-        String userEmail = messageRequest.getUserEmail();
+    public void postMessage(@RequestHeader(value="Authorization") String token,
+                            @RequestBody Message messageRequest) {
+        String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
         messagesService.postMessage(messageRequest, userEmail);
     }
 

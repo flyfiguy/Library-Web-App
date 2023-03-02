@@ -209,6 +209,11 @@ REST Endpoints using Spring Data REST
 React Router: how you handle multiple pages in an SPA (single page application)
 	-react-router-dom@5 (there is a version @6, but it is not stable enough to use currently)
 		-npm install react-router-dom@5
+	-In our example, this is set up in App.tsx
+	-Use this in situations where you only want those that are completely logged in/authenticated going to a certain route.
+		-<SecureRoute ></SecureRoute>
+			-Example from code: <SecureRoute path='/shelf'> <ShelfPage/> </SecureRoute>
+		-If not logged int, it should reroute you to your login page
 		
 ICONS
 	-Bookstrap Icons
@@ -226,3 +231,47 @@ Create free developer account at okta.com
 	-Check your email to verify your account
 	-Set up OpenID Connect account in okta
 	-Intall Okta widget: npm install @okta/okta-signin-widget@6.3.3
+	-Install Okta for React: npm install @okta/okta-react@6.4.3
+	-Install Okta for React: npm install @okta/okta-react@6.4.3
+	-Go to package-lock.json and you should see the following under dependencies:
+	    - "@okta/okta-react": "^6.4.3",
+        - "@okta/okta-signin-widget": "^6.3.3",
+
+	-Maven Okta dependency for Spring Boot
+		<dependency>
+			<groupId>com.okta.spring</groupId>
+			<artifactId>okta-spring-boot-starter</artifactId>
+			<version>2.1.6</version>
+		</dependency>
+		
+		
+	The jwt token has three parts. The header part, the payload part, and the signature part. All are seperated by a period ".". 
+	You can copy the token from chrome using right click inpect >  in and open jwt.io and see if the signature is verified.
+	The is what is used by the backend. It verifies with Okta that it is valid. In postman, you can go to "Authorization" and add Type Bearer Token and it will authenticate. 
+	Need to pass this value with our secure endpoints.
+	In the payload of the jwt, it has some information including the user email from the user account that logged in. So pass in the jwt for authentication and we can grab the user email from that payload part. See example below.
+
+	1) Pass to the backend endpoint the jwt
+	2) The backend will verify the jwt
+	3) The backend will extract information (such as email) from the jwt
+
+Example payload...
+
+{
+  "ver": 1,
+  "jti": "AT.v2A5ep57b2nep4jaxqrV-AOY6KM_eRu6Efo59bic0Ug",
+  "iss": "https://dev-42693214.okta.com/oauth2/default",
+  "aud": "api://default",
+  "iat": 1676669965,
+  "exp": 1676673565,
+  "cid": "0oa8cijs16D8MP3SF5d7",
+  "uid": "00u8cicct6Mqljt2F5d7",
+  "scp": [
+    "openid",
+    "email",
+    "profile"
+  ],
+  "auth_time": 1676669964,
+  "sub": "testuser@email.com"
+}	
+	

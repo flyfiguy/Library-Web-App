@@ -1,13 +1,11 @@
 package com.springbootlibrary.dao;
 
-import com.springbootlibrary.entity.Message;
+import com.springbootlibrary.entity.History;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.web.bind.annotation.RequestParam;
 
-public interface MessageRepository extends JpaRepository<Message, Long> {
-
-    Page<Message> findByUserEmail(@RequestParam("user_email") String userEmail, Pageable pageable);
-
+public interface HistoryRepository extends JpaRepository<History, Long> {
+    Page<History> findBooksByUserEmail(@RequestParam("email") String userEmail, Pageable pageable);
 }
