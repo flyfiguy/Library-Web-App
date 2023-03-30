@@ -27,12 +27,11 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(configurer -> configurer
                                 .requestMatchers("/api/books",
                                         "/api/books/*?",
-                                        "/api/messages",
+                                        "/api/messages/**",
                                         "/api/reviews",
                                         "/api/checkouts",
                                         "/api/histories/search/**",
-                                        "/api/reviews/search/**",
-                                        "/api/histories/search/**").permitAll()
+                                        "/api/reviews/search/**").permitAll()
                                 .requestMatchers("/api/books/secure/**",
                                         "/api/reviews/secure/**",
                                         "/api/messages/secure/**",

@@ -51,9 +51,13 @@ Bootstrap files: www.getbootstrap.com
 		</table>
 		
 Hooks
-	-import React, {useState} from 'react';
-		-Dynamically Rerender Page: Use the state trigger a refresh of the specific component after changing a variable (add a new element to an array) 
-	-useEffect: React Hook that tells out React app that it needs to do something after rendering such as fetch books for our carousel or reviews.
+	-useState
+		-import React, {useState} from 'react';
+		-Dynamically Rerender Page: Use the state to trigger a refresh of the specific component (function) after changing a variable (using the "set" of the useState)
+		-React will then re-render the component (function), passing the new state value to it.
+	-useEffect
+		-React Hook that tells out React app that it needs to do something after rendering (called a side effect) such as fetch books (whatever is in the useEffect) for our carousel or reviews.
+		-By default, it runs both after the first render and after every update. It can be customized so it does not run after every render.
 		
 
 await fetch(): JavaScript method that is an easy way to fetch resources (data) asynchronously accross a network...in our case calling the Spring Boot API endpoint.
