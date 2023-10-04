@@ -31,7 +31,8 @@ public class SecurityConfiguration {
                                         "/api/reviews",
                                         "/api/checkouts",
                                         "/api/histories/search/**",
-                                        "/api/reviews/search/**").permitAll()
+                                        "/api/reviews/search/**",
+                                        "api/messages/search/findByClosed").permitAll()
                                 .requestMatchers("/api/books/secure/**",
                                         "/api/reviews/secure/**",
                                         "/api/messages/secure/**",
