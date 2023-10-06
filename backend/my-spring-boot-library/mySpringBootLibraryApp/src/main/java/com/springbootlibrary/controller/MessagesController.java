@@ -32,7 +32,7 @@ public class MessagesController {
         //Get the user email from the token
         String userEmail = ExtractJWT.payloadJWTExtraction(token, "\"sub\"");
         //Get the userType from the token
-        String admin = ExtractJWT.payloadJWTExtraction(token, "\"UserType\"");
+        String admin = ExtractJWT.payloadJWTExtraction(token, "\"userType\"");
 
         //If not an admin, throw an exception with message for front end.
         if(admin == null || !admin.equals("admin")) {
