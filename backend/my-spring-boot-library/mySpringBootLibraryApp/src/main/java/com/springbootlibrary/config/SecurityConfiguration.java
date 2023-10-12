@@ -24,6 +24,7 @@ public class SecurityConfiguration {
         //Had to replace antMatchers (not available) with requestMatchers
         //"/api/reviews/search/findByBookId",
         // "/api/reviews/search/findByBookId"
+        //** is a wild card when you have additional / to account for
         http.authorizeHttpRequests(configurer -> configurer
                                 .requestMatchers("/api/books",
                                         "/api/books/*?",
