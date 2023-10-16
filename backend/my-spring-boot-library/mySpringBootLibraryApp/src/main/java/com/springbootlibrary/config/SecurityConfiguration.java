@@ -28,6 +28,7 @@ public class SecurityConfiguration {
         http.authorizeHttpRequests(configurer -> configurer
                                 .requestMatchers("/api/books",
                                         "/api/books/*?",
+                                        "/api/books/search/findByTitleContaining",
                                         "/api/messages/**",
                                         "/api/reviews",
                                         "/api/checkouts",
