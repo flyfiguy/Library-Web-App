@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import BookModel from "../../../models/BookModel";
 import { Pagination } from "../../Utils/Pagination";
 import { SpinnerLoading } from "../../Utils/SpinnerLoading";
+import { ChangeQuantityOfBook } from "./ChangeQuantityOfBook";
 
 export const ChangeQuantityOfBooks = () => {
         //State - Keep track of books array state. BookModel array or books we create "BookModel[]" of type array "([])"
@@ -115,7 +116,7 @@ export const ChangeQuantityOfBooks = () => {
                         {indexOfFirstBook + 1} to {lastItem} of {totalAmountOfBooks} items:
                     </p>
                     {books.map(book => (
-                        <p>Display different quantity of books here</p>
+                        <ChangeQuantityOfBook book={book} key={book.id}/>
                     ))}
                 </>
                 :
