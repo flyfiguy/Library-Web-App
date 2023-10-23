@@ -1,22 +1,29 @@
 package com.springbootlibrary.service;
 
 import com.springbootlibrary.dao.BookRepository;
+import com.springbootlibrary.dao.CheckoutRepository;
+import com.springbootlibrary.dao.ReviewRepository;
 import com.springbootlibrary.entity.Book;
 import com.springbootlibrary.requestModels.AddBookRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import javax.swing.text.html.Option;
 import java.util.Optional;
 
 @Service
 @Transactional
 public class AdminService {
     private BookRepository bookRepository;
+    private ReviewRepository reviewRepository;
+    private CheckoutRepository checkoutRepository;
 
     @Autowired
-    public AdminService (BookRepository bookRepository) {
+    public AdminService (BookRepository bookRepository, ReviewRepository reviewRepository, CheckoutRepository checkoutRepository) {
         this.bookRepository = bookRepository;
+        this.reviewRepository = reviewRepository;
+        this.checkoutRepository = checkoutRepository;
     }
 
     public void increaseBookQuantity(Long bookId) throws Exception {
@@ -62,6 +69,19 @@ public class AdminService {
         book.setCategory(addBookRequest.getCategory());
         book.setImg(addBookRequest.getImg());
         bookRepository.save(book);
+    }
+
+    public void deleteBook(Long bookId) throws Exception {
+        Optional<Book> book = bookRepository.findById(bookId);
+
+        if(!book.isPresent()) {
+            throw new Exception("AdminService: Book not found");
+        }
+
+        //Delete book and all its checkouts and reviews
+        bookRepository.delete(book.get());
+        checkoutRepository.deleteAllByBookId(bookId);
+        reviewRepository.deleteAllByBookId(bookId);
     }
 
 }

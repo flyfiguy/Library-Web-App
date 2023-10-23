@@ -4,6 +4,7 @@ import com.springbootlibrary.requestModels.AddBookRequest;
 import com.springbootlibrary.service.AdminService;
 import com.springbootlibrary.utils.ExtractJWT;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.hateoas.mediatype.alps.Ext;
 import org.springframework.web.bind.annotation.*;
 
 @CrossOrigin("http://localhost:3000")
@@ -45,7 +46,6 @@ public class AdminController {
         adminService.decreaseBookQuantity(bookId);
     }
 
-
     @PostMapping("/secure/add/book")
     public void postBook(@RequestHeader(value="Authorization")String token,
                          @RequestBody AddBookRequest addBookRequest) throws  Exception {
@@ -56,4 +56,13 @@ public class AdminController {
         adminService.postBook(addBookRequest);
     }
 
+    @DeleteMapping("/secure/delete/book")
+    public void deleteBook(@RequestHeader(value="Authorization") String token,
+                           @RequestParam Long bookId) throws Exception {
+        String admin = ExtractJWT.payloadJWTExtraction(token, "\"userType\"");
+        if(admin == null || !admin.equals("admin")) {
+            throw new Exception("AdminController: Administration page only");
+        }
+        adminService.deleteBook(bookId);
+    }
 }
