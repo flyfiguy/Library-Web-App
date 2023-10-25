@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import BookModel from "../../../models/BookModel";
 import { useOktaAuth } from "@okta/okta-react";
 
-export const ChangeQuantityOfBook: React.FC<{ book: BookModel }> = (props, key) => {
+export const ChangeQuantityOfBook: React.FC<{ book: BookModel, deleteBook: any}> = (props, key) => {
     
     //State
     const { authState } = useOktaAuth();
@@ -29,13 +29,13 @@ export const ChangeQuantityOfBook: React.FC<{ book: BookModel }> = (props, key) 
 
         const quantityUpdateResponse = await fetch(url, requestOptions);
         if(!quantityUpdateResponse.ok) {
-            throw new Error('ChangeQuantityOfBook.increaseQuantity: Something went wrong!')
+            throw new Error('ChangeQuantityOfBook.increaseQuantity: Something went wrong!');
         }
 
         //Successfully called api so we update. 
         //No error means the call to the backend worked. No need to call useEffect for this.
         setQuantity(quantity + 1);
-        setRemaining(remaining + 1)
+        setRemaining(remaining + 1);
     }
 
     async function decreaseQuanity() {
@@ -50,14 +50,32 @@ export const ChangeQuantityOfBook: React.FC<{ book: BookModel }> = (props, key) 
 
         const quantityUpdateResponse = await fetch(url, requestOptions);
         if(!quantityUpdateResponse.ok) {
-            throw new Error('ChangeQuantityOfBook.decreaseQuanity: Something went wrong!')
+            throw new Error('ChangeQuantityOfBook.decreaseQuanity: Something went wrong!');
         }
 
         //Successfully called api so we update. 
         //No error means the call to the backend worked. No need to call useEffect for this.
         setQuantity(quantity - 1);
-        setRemaining(remaining - 1)
-       
+        setRemaining(remaining - 1);
+    }
+
+    async function deleteBook() {
+        const url = `http://localhost:8080/api/admin/secure/delete/book?bookId=${props.book.id}`;
+        const requestOptions = {
+            method: 'DELETE',
+            headers: {
+                Authorization: `Bearer ${authState?.accessToken?.accessToken}`,
+                'Content-Type' : 'application/json'
+            }
+        };
+
+        const updateResponse = await fetch(url, requestOptions);
+        if(!updateResponse.ok) {
+            throw new Error('ChangeQuantityOfBook.decreaseQuanity: Something went wrong!');
+        }
+
+        //Successfully called api so call the deleteBook function prop we passed in
+        props.deleteBook();
     }
 
     return (
@@ -98,7 +116,7 @@ export const ChangeQuantityOfBook: React.FC<{ book: BookModel }> = (props, key) 
                 </div>    
                 <div className="mt-3 col-md-1">
                     <div className="d-flex justify-content-start">
-                        <button className="m-1 btn btn-md btn-danger">Delete</button>
+                        <button className="m-1 btn btn-md btn-danger" onClick={deleteBook}>Delete</button>
                     </div>
                 </div> 
                 <button className="m1 btn btn-md main-color text-white" onClick={increaseQuantity}>Add Quantity</button>   
