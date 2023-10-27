@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.hateoas.mediatype.alps.Ext;
 import org.springframework.web.bind.annotation.*;
 
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("https://localhost:3000")
 @RestController
 @RequestMapping("/api/admin")
 public class AdminController {

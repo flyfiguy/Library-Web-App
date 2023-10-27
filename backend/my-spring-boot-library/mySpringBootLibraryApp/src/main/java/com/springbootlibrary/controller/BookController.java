@@ -12,7 +12,7 @@ import java.util.Map;
 
 //Add CrossOrigin URL of the calling application so react front end will
 // be able to call this without getting a CORS error
-@CrossOrigin("http://localhost:3000")
+@CrossOrigin("https://localhost:3000")
 @RestController //Controller for rest API
 @RequestMapping("/api/books") //To match the other data rest API's
 public class BookController {
