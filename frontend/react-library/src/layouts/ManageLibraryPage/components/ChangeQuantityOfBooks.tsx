@@ -23,7 +23,7 @@ export const ChangeQuantityOfBooks = () => {
             //Function defined inside of useEffect that gets called further down.
             //async means it will wait for a promise to come back.
             const fetchBooks = async () => {
-                const baseUrl: string = `http://localhost:8080/api/books?page=${currentPage - 1}&size=${booksPerPage}`;
+                const baseUrl: string = `${process.env.REACT_APP_API}/books?page=${currentPage - 1}&size=${booksPerPage}`;
         
                 //The fetch API is promised based (returns a promise). It is better to write code with async and await.
                 //Since this is an async function, await is used (instead of .then() which can instead be used without "async". Don't use .then()).

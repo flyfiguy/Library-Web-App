@@ -25,7 +25,7 @@ export const SearchBooksPage = () => {
         //Function defined inside of useEffect that gets called further down.
         //asynch means it will wait for a promise to come back.
         const fetchBooks = async () => {
-            const baseUrl: string = "http://localhost:8080/api/books";
+            const baseUrl: string = `${process.env.REACT_APP_API}/books`;
 
             let url: string = '';
             //If searchUrl is an empty string, do the basic book search. If not, then search for the book user is trying to find using search.

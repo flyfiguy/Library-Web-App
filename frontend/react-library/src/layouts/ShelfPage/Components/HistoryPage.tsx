@@ -21,7 +21,7 @@ export const HistoryPage = () => {
         const fetchUserHistory = async () => {
             if (authState && authState.isAuthenticated) {
                 //Passing user email grabbed from the access token. Not passing in token (and extracting it in backend) since this is not a secure endpoint.
-                const url = `http://localhost:8080/api/histories/search/findBooksByUserEmail?userEmail=${authState.accessToken?.claims.sub}&page=${currentPage - 1}&size=5`;
+                const url = `${process.env.REACT_APP_API}/histories/search/findBooksByUserEmail?userEmail=${authState.accessToken?.claims.sub}&page=${currentPage - 1}&size=5`;
                 const requestOptions = {
                     method: 'GET',
                     headers: {
